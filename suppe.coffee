@@ -65,6 +65,19 @@ module.exports.suppe = (grunt, opts = {}) ->
           prefix: deps_prefix
           root: app_dirs
 
+    zuckrig:
+      all:
+        options:
+          filter: (file) -> not /_test.js$/.test(file)
+        files: [
+          expand: true
+          src: [
+            "#{var_dir}/#{src_dir}/**/*.js"
+            "#{var_dir}/#{bower_dir}/**/*.js"
+          ]
+          ext: '.js'
+        ]
+
     esteBuilder:
       options:
         closureBuilderPath: closure_lib_dir + '/closure/bin/build/closurebuilder.py'
@@ -150,11 +163,13 @@ module.exports.suppe = (grunt, opts = {}) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-este'
   grunt.loadNpmTasks 'grunt-este-watch'
+  grunt.loadNpmTasks 'grunt-zuckrig-closure'
 
   grunt.registerTask 'build', 'Build app.', ->
     tasks = [
       "clean"
       "coffee"
+      'zuckrig'
       "coffee2closure"
       "coffeelint"
       "esteDeps"
@@ -167,6 +182,7 @@ module.exports.suppe = (grunt, opts = {}) ->
     tasks = [
       "clean"
       "coffee"
+      'zuckrig'
       "coffee2closure"
       "coffeelint"
       "esteDeps"
