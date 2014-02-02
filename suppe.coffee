@@ -1,11 +1,12 @@
 module.exports.suppe = (grunt, opts = {}) ->
 
-  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir} = opts
+  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace} = opts
 
   bower_dir ?= 'bower_components'
   closure_lib_dir ?= bower_dir + '/closure-library'
   var_dir ?= 'var'
   src_dir ?= 'cs'
+  app_namespace ?= 'app.start'
 
   app_dirs = [
     closure_lib_dir
@@ -103,7 +104,7 @@ module.exports.suppe = (grunt, opts = {}) ->
 
       all:
         options:
-          namespace: 'app.api'
+          namespace: app_namespace
           outputFilePath: app_compiled_output_path
 
     esteUnitTests:
