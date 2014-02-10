@@ -133,8 +133,9 @@ module.exports.suppe = (grunt, opts = {}) ->
           ext: '.js'
         ]
         grunt.config ['coffee', 'all', 'files'], config
+        grunt.config ['zuckrig', 'all', 'files'], config
         grunt.config ['coffee2closure', 'all', 'files'], config
-        ['coffee', 'coffee2closure']
+        ['coffee', 'zuckrig', 'coffee2closure']
 
       js: (filepath) ->
         grunt.config ['esteDeps', 'all', 'src'], filepath
