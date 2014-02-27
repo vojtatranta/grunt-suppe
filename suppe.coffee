@@ -1,6 +1,6 @@
 module.exports.suppe = (grunt, opts = {}) ->
 
-  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace} = opts
+  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs} = opts
 
   bower_dir ?= 'bower_components'
   closure_lib_dir ?= bower_dir + '/closure-library'
@@ -18,6 +18,9 @@ module.exports.suppe = (grunt, opts = {}) ->
     "#{src_dir}/**/*.coffee"
     bower_dir + '/werkzeug/**/*.coffee'
   ]
+
+  watch_dirs ?= []
+  watch_dirs = watch_dirs.concat "#{src_dir}/**/", "#{var_dir}/#{src_dir}/**/"
 
   app_compiled_output_path ?= 'dj/static/js/app.js'
 
@@ -120,10 +123,7 @@ module.exports.suppe = (grunt, opts = {}) ->
 
     esteWatch:
       options:
-        dirs: [
-          "#{src_dir}/**/"
-          "#{var_dir}/#{src_dir}/**/"
-        ]
+        dirs: watch_dirs
 
       coffee: (filepath) ->
         config = [
