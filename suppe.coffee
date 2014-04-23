@@ -1,12 +1,13 @@
 module.exports.suppe = (grunt, opts = {}) ->
 
-  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs} = opts
+  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config} = opts
 
   bower_dir ?= 'bower_components'
   closure_lib_dir ?= bower_dir + '/closure-library'
   var_dir ?= 'var'
   src_dir ?= 'cs'
   app_namespace ?= 'app.start'
+  overridden_config ?= {}
 
   app_dirs = [
     closure_lib_dir
@@ -29,7 +30,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   # from closure base.js dir to app root dir
   deps_prefix ?= '../../../../static/js/'
 
-  grunt.initConfig
+  config =
 
     clean:
       all:
@@ -159,6 +160,9 @@ module.exports.suppe = (grunt, opts = {}) ->
           src: coffee_files
           ext: '.js'
         ]
+
+  config[k] = v for k, v of overridden_config
+  grunt.initConfig config
 
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-contrib-clean'
