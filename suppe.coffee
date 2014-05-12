@@ -1,6 +1,6 @@
 module.exports.suppe = (grunt, opts = {}) ->
 
-  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config} = opts
+  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config, closure_libs} = opts
 
   bower_dir ?= 'bower_components'
   closure_lib_dir ?= bower_dir + '/closure-library'
@@ -8,6 +8,8 @@ module.exports.suppe = (grunt, opts = {}) ->
   src_dir ?= 'cs'
   app_namespace ?= 'app.start'
   overridden_config ?= {}
+  closure_libs ?= ["#{var_dir}/#{bower_dir}/werkzeug/**/*.js"]
+  closure_libs.push "#{var_dir}/#{src_dir}/**/*.js"
 
   app_dirs = [
     closure_lib_dir
@@ -55,10 +57,7 @@ module.exports.suppe = (grunt, opts = {}) ->
       all:
         files: [
           expand: true
-          src: [
-            "#{var_dir}/#{src_dir}/**/*.js"
-            "#{var_dir}/#{bower_dir}/**/*.js"
-          ]
+          src: closure_libs
           ext: '.js'
         ]
 
@@ -76,10 +75,7 @@ module.exports.suppe = (grunt, opts = {}) ->
           filter: (file) -> not /_test.js$/.test(file)
         files: [
           expand: true
-          src: [
-            "#{var_dir}/#{src_dir}/**/*.js"
-            "#{var_dir}/#{bower_dir}/**/*.js"
-          ]
+          src: closure_libs
           ext: '.js'
         ]
 
