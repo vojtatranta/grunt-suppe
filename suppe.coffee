@@ -1,6 +1,6 @@
 module.exports.suppe = (grunt, opts = {}) ->
 
-  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config, closure_libs} = opts
+  {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config, closure_libs, externs} = opts
 
   bower_dir ?= 'bower_components'
   closure_lib_dir ?= bower_dir + '/closure-library'
@@ -156,6 +156,11 @@ module.exports.suppe = (grunt, opts = {}) ->
           src: coffee_files
           ext: '.js'
         ]
+
+  # allows to use external libraries in closure
+  if externs?
+    for extern in externs
+      config.esteBuilder.options.compilerFlags.push "--externs=#{extern}"
 
   config[k] = v for k, v of overridden_config
   grunt.initConfig config
