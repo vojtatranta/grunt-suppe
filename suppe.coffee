@@ -1,3 +1,4 @@
+fs = require 'fs'
 module.exports.suppe = (grunt, opts = {}) ->
 
   {bower_dir, closure_lib_dir, coffee_files, app_compiled_output_path, deps_path, deps_prefix, var_dir, src_dir, app_namespace, watch_dirs, overridden_config, closure_libs, externs} = opts
@@ -13,10 +14,12 @@ module.exports.suppe = (grunt, opts = {}) ->
 
   app_dirs = [
     closure_lib_dir
-    "#{var_dir}/#{bower_dir}"
     "#{var_dir}/#{src_dir}"
   ]
 
+  bower_var = "#{var_dir}/#{bower_dir}"
+  if fs.existsSync bower_var
+    app_dirs.push bower_var
   coffee_files ?= [
     "#{src_dir}/**/*.coffee"
     bower_dir + '/werkzeug/**/*.coffee'
