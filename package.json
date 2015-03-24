@@ -1,8 +1,5 @@
 {
     "name": "grunt-suppe",
-    "version": "0.1.7",
-    "main": "suppe",
-    "devDependencies": {
-        "grunt-contrib-sass": "0.9.2"
-    }
+    "version": "0.1.8",
+    "main": "suppe"
 }

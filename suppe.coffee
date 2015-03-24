@@ -192,6 +192,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   grunt.loadNpmTasks 'grunt-este'
   grunt.loadNpmTasks 'grunt-este-watch'
   grunt.loadNpmTasks 'grunt-zuckrig-closure'
+  grunt.loadNpmTasks 'grunt-contrib-sass'
 
   grunt.registerTask 'build', 'Build app.', ->
     tasks = [
