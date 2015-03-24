@@ -11,6 +11,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   overridden_config ?= {}
   closure_libs ?= ["#{var_dir}/#{bower_dir}/werkzeug/**/*.js"]
   closure_libs.push "#{var_dir}/#{src_dir}/**/*.js"
+  sass_dir = "dj/static/styles"
 
   app_dirs = [
     closure_lib_dir
@@ -26,7 +27,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   ]
 
   watch_dirs ?= []
-  watch_dirs = watch_dirs.concat "#{src_dir}/**/", "#{var_dir}/#{src_dir}/**/"
+  watch_dirs = watch_dirs.concat "#{src_dir}/**/", "#{var_dir}/#{src_dir}/**/", "#{sass_dir}/**/"
 
   app_compiled_output_path ?= 'dj/static/js/app.js'
 
@@ -121,6 +122,20 @@ module.exports.suppe = (grunt, opts = {}) ->
           "#{var_dir}/#{src_dir}/**/*_test.js"
         ]
 
+    sass:
+      all:
+        files:
+          [{
+            expand: true
+            cwd: sass_dir
+            src: ['*.sass']
+            dest: "#{sass_dir}/dist"
+            ext: '.css'
+          }]
+      dist:
+        options:
+          sourcemap: 'none'
+
     esteWatch:
       options:
         dirs: watch_dirs
@@ -141,6 +156,9 @@ module.exports.suppe = (grunt, opts = {}) ->
         grunt.config ['esteDeps', 'all', 'src'], filepath
         grunt.config ['esteUnitTests', 'all', 'src'], filepath
         ['esteDeps', 'esteUnitTests']
+
+      sass: ->
+        ['sass']
 
     coffeelint:
       options:
@@ -178,6 +196,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   grunt.registerTask 'build', 'Build app.', ->
     tasks = [
       "clean"
+      "sass"
       "coffee"
       'zuckrig'
       "coffee2closure"
@@ -191,6 +210,7 @@ module.exports.suppe = (grunt, opts = {}) ->
   grunt.registerTask 'run', 'Build app and run watchers.', ->
     tasks = [
       "clean"
+      "sass"
       "coffee"
       'zuckrig'
       "coffee2closure"
